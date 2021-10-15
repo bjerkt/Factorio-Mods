@@ -33,7 +33,7 @@ data:extend({item_centrifuge})
 
 data:extend({
     {
-      icon = "__SmelterUPSGrade__/graphics/smelter-blk.png",
+      icon = "__SmelterUPSGrade-SEFork__/graphics/smelter-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "smelter-block",
@@ -43,7 +43,7 @@ data:extend({
       type = "item"
     },
 	{
-      icon = "__SmelterUPSGrade__/graphics/centri-blk.png",
+      icon = "__SmelterUPSGrade-SEFork__/graphics/centri-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "centrifuge-block",

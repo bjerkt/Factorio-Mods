@@ -167,7 +167,7 @@ function create_smelter(edge_size, ratio, scale_factor)
 	end
 	
 	local edge_art = {
-		filename = "__SmelterUPSGrade__/graphics/smelter_border.png",
+		filename = "__SmelterUPSGrade-SEFork__/graphics/smelter_border.png",
 		frame_count = 1,
 		height = 256,
 		priority = "high",
@@ -208,7 +208,7 @@ function createCentrifuge(edge_size, ratio, scale_factor)
 	end
 
 	local edge_art = {
-		filename = "__SmelterUPSGrade__/graphics/centrifuge-border.png",
+		filename = "__SmelterUPSGrade-SEFork__/graphics/centrifuge-border.png",
 		frame_count = 64,
 		line_length = 8,
 		height = 256,
