@@ -3,6 +3,7 @@ data:extend(
   {
     type = "technology",
     name = "bulk-smelters",
+	localised_name = {"technology-name.bulk-smelters"},
 	icon = nil,
 	icons = {
 		{
@@ -11,7 +12,19 @@ data:extend(
 			icon_size = 256
 		}
 	},
-    effects =
+    effects = {}
+	-- Loop through all bulksmelting recipes, add them to unlock list
+	for _,recipe in pairs(data.raw["recipe"]) do
+		if recipe.category and recipe.category == "bulksmelting" then
+			table.insert(effects, {type="unlock-recipe", recipe=recipe.name})
+		end
+	end
+	-- one-offs
+	table.insert(effects,{type = "unlock-recipe",recipe = "bulk-kovarex-enrichment-process"})
+	table.insert(effects,{type = "unlock-recipe",recipe = "bulk-uranium-processing"})
+	table.insert(effects,{type = "unlock-recipe",recipe = "centrifuge-block"})
+	table.insert(effects,{type = "unlock-recipe",recipe = "smelter-block"})
+	--[[
     {
 	  --someone less lazy than me can convert this to a for-loop so it will support other mods like Bobs/angels
 		{
@@ -55,6 +68,7 @@ data:extend(
 			recipe = "smelter-block"
 		},
     },
+	--]]
     prerequisites = {"advanced-material-processing-2", "rocket-silo"},
     unit =
     {
