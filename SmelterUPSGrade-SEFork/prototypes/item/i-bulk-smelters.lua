@@ -9,6 +9,7 @@ item_smelter.icons = {
 	}
 }
 item_smelter.name = "bulk-smelter"
+item_smelter.localised_name = {"item-name.bulk-smelter"}
 item_smelter.order = "f[bulk-smelter]"
 item_smelter.stack_size = 1
 item_smelter.place_result = "bulk-smelter"
@@ -24,6 +25,7 @@ item_centrifuge.icons = {
 	}
 }
 item_centrifuge.name = "bulk-centrifuge"
+item_centrifuge.localised_name = {"item-name.bulk-centrifuge"}
 item_centrifuge.order = "cc[bulk-centrifuge]"
 item_centrifuge.stack_size = 1
 item_centrifuge.place_result = "bulk-centrifuge"
@@ -37,6 +39,7 @@ data:extend({
       icon_mipmaps = 1,
       icon_size = 64,
       name = "smelter-block",
+      localised_name = {"item-name.smelter-block"},
       order = "h[smelter-block]",
       stack_size = 50,
       subgroup = "intermediate-product",
@@ -47,6 +50,7 @@ data:extend({
       icon_mipmaps = 1,
       icon_size = 64,
       name = "centrifuge-block",
+      localised_name = {"item-name.centrifuge-block"},
       order = "h[centrifuge-block]",
       stack_size = 50,
       subgroup = "intermediate-product",

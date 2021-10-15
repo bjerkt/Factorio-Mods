@@ -8,6 +8,7 @@ data:extend{
 	{type = "recipe-category", name = "bulkcentrifuging"},
 	{
 		name = "smelter-block",
+		localised_name = {"recipe-name.smelter-block"},
         energy_required = 10,
         ingredients = {
 			{"beacon", intermediate_beacon_cnt},
@@ -23,6 +24,7 @@ data:extend{
     },
 	{
 		name = "centrifuge-block",
+		localised_name = {"recipe-name.centrifuge-block"}
         energy_required = 10,
         ingredients = {
 			{"beacon", intermediate_beacon_cnt},
@@ -77,6 +79,7 @@ function create_entity_recipe(e_type)
 	
 	recipe.result = "bulk-" .. e_type
 	recipe.name = "bulk-" .. e_type
+	recipe.localised_name = {"recipe-name.bulk"..e_type}
 	
 	data:extend({recipe})
 end

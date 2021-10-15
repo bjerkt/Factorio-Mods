@@ -67,6 +67,7 @@ function create_entity(e_type)
 		}
 	}
 	entity.name = "bulk-" .. e_type
+	entity.localised_name = {"entity-name.bulk"..e_type}
 	entity.collision_box = {
 		{-1*edge_size + 0.2,-1*edge_size + 0.2},
 		{ edge_size - 0.2, edge_size - 0.2}
@@ -84,7 +85,6 @@ function create_entity(e_type)
 	}
 
 	createEntityRadar(entity.name, edge_size)
-	
 	data:extend({entity})
 end
 
@@ -129,7 +129,7 @@ end
 function create_smelter(edge_size, ratio, scale_factor)
 	local entity
 	
-	entity = table.deepcopy(data.raw.furnace["electric-furnace"])
+	entity = table.deepcopy(data.raw["assembling-machine"]["industrial-furnace"])
 	entity.base_productivity = smelter_productivity_factor
 	entity.crafting_speed = smelter_total_speed_bonus
 	entity.energy_usage = smelter_total_pwr_draw * ratio .. "kW"
@@ -137,7 +137,13 @@ function create_smelter(edge_size, ratio, scale_factor)
 	entity.energy_source.emissions_per_minute = smelter_base_pollution * (smelter_per_unit_pwr_drain_penalty * (prod_mod_pollution_penalty * smelter_base_modules + 1)) * ratio
 	entity.crafting_categories = { "bulksmelting" }
 	entity.result_inventory_size = r_output_windows_needed
-	
+	entity.fluid_boxes = nil
+	--[[
+	for _,box in pairs(entity.fluid_boxes) do
+		if type(box) == "table" then
+		end
+	end
+	--]]
 	--For reasons I don't understand, the offsets need additional padding to scale correctly on top of the building scale itself.
 	local OFFSET_SCALING_FACTOR = 1.95
 	entity.scale_entity_info_icon = true
@@ -148,6 +154,7 @@ function create_smelter(edge_size, ratio, scale_factor)
 	entity.animation.layers[2].hr_version.scale = scale_factor
 	entity.animation.layers[2].hr_version.shift[1] = entity.animation.layers[2].hr_version.shift[1] * scale_factor*OFFSET_SCALING_FACTOR
 	entity.animation.layers[2].hr_version.shift[2] = entity.animation.layers[2].hr_version.shift[2] * scale_factor*OFFSET_SCALING_FACTOR
+	--[[
 	for z, _ in pairs(entity.working_visualisations) do
 		if entity.working_visualisations[z].animation.layers then
 			for i, _ in pairs(entity.working_visualisations[z].animation.layers) do
@@ -165,7 +172,7 @@ function create_smelter(edge_size, ratio, scale_factor)
 			entity.working_visualisations[z].animation.hr_version.shift[2] = tmp * scale_factor*OFFSET_SCALING_FACTOR
 		end
 	end
-	
+	--]]
 	local edge_art = {
 		filename = "__SmelterUPSGrade-SEFork__/graphics/smelter_border.png",
 		frame_count = 1,
