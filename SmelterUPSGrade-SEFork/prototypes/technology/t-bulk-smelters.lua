@@ -1,4 +1,18 @@
-data:extend(
+local eff = {}
+-- Loop through all bulksmelting recipes, add them to unlock list
+for _,recipe in pairs(data.raw["recipe"]) do
+	if recipe.category and recipe.category == "bulksmelting" then
+		table.insert(eff, {type="unlock-recipe", recipe=recipe.name})
+	end
+end
+-- one-offs
+table.insert(eff,{type = "unlock-recipe",recipe = "bulk-kovarex-enrichment-process"})
+table.insert(eff,{type = "unlock-recipe",recipe = "bulk-uranium-processing"})
+table.insert(eff,{type = "unlock-recipe",recipe = "centrifuge-block"})
+table.insert(eff,{type = "unlock-recipe",recipe = "smelter-block"})
+table.insert(eff,{type = "unlock-recipe",recipe = "bulk-smelter"})
+table.insert(eff,{type = "unlock-recipe",recipe = "bulk-centrifuge"})
+local techs = 
 {
   {
     type = "technology",
@@ -12,18 +26,7 @@ data:extend(
 			icon_size = 256
 		}
 	},
-    effects = {}
-	-- Loop through all bulksmelting recipes, add them to unlock list
-	for _,recipe in pairs(data.raw["recipe"]) do
-		if recipe.category and recipe.category == "bulksmelting" then
-			table.insert(effects, {type="unlock-recipe", recipe=recipe.name})
-		end
-	end
-	-- one-offs
-	table.insert(effects,{type = "unlock-recipe",recipe = "bulk-kovarex-enrichment-process"})
-	table.insert(effects,{type = "unlock-recipe",recipe = "bulk-uranium-processing"})
-	table.insert(effects,{type = "unlock-recipe",recipe = "centrifuge-block"})
-	table.insert(effects,{type = "unlock-recipe",recipe = "smelter-block"})
+    effects = eff,
 	--[[
     {
 	  --someone less lazy than me can convert this to a for-loop so it will support other mods like Bobs/angels
@@ -85,5 +88,6 @@ data:extend(
       time = 60
     },
     order = "a-b-c"
-  },
-})
+  }
+}
+  data:extend(techs)
