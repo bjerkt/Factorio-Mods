@@ -24,7 +24,7 @@ data:extend{
     },
 	{
 		name = "centrifuge-block",
-		localised_name = {"recipe-name.centrifuge-block"}
+		localised_name = {"recipe-name.centrifuge-block"},
         energy_required = 10,
         ingredients = {
 			{"beacon", intermediate_beacon_cnt},
