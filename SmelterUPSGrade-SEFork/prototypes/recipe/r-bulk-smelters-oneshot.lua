@@ -95,7 +95,7 @@ function scale_recipe(struct)
 	-- Scale results
 	-- single result in "xxx" format
 	if new_recipe.result then
-		new_recipe.results = {name = new_recipe.result, amount = scaling_factor}
+		new_recipe.results = {{name = new_recipe.result, amount = scaling_factor}}
 		new_recipe.result = nil
 	-- table of results in {name="xxx", amount=00, type="xxx"} format
 	elseif new_recipe.results then
@@ -120,7 +120,7 @@ function create_smelter_recipe(recipe)
 	--bulk_recipe.result_count = total_outputs_ore * MAX_OUTPUT_STACK_SIZE
 	bulk_recipe.category = "bulksmelting"
 	bulk_recipe.enabled = false
-	bulk_recipe.name = "bulk-" .. name
+	bulk_recipe.name = "bulk-" .. recipe.name
 	
 	data:extend({bulk_recipe})
 end
