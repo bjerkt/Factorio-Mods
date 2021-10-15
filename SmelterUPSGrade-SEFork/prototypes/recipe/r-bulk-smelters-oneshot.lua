@@ -1,6 +1,7 @@
 require("prototypes.constants")
 
 local intermediate_beacon_cnt = math.ceil(BEACON_COUNT * .5)
+local scaling_factor = r_ore_in
 
 data:extend{
 	{type = "recipe-category", name = "bulksmelting"},
@@ -79,23 +80,48 @@ function create_entity_recipe(e_type)
 	
 	data:extend({recipe})
 end
-
-function create_smelter_recipe(name, ore)
-	local recipe = table.deepcopy(data.raw.recipe[name])
-
-	recipe.category = "bulksmelting"
-	recipe.energy_required = recipe.energy_required * ore_batching_factor
-	if ore == "stone" then
-		recipe.ingredients = { {ore, r_ore_in * 2} }
-	else
-		recipe.ingredients = { {ore, r_ore_in} }
+function scale_recipe(struct)
+	local new_recipe = table.deepcopy(struct)
+	-- Scale ingredients
+	for _,ingredient in new_recipe.ingredients do
+		-- ingredient is in {name="xxx", amount=00, type="xxx"} format
+		if ingredient.name then
+			ingredient.amount = ingredient.amount * scaling_factor
+		-- ingredient is in {"xxx", 00} format
+		else
+			ingredient[2] = ingredient[2] * scaling_factor
+		end
 	end
-	recipe.result_count = total_outputs_ore * MAX_OUTPUT_STACK_SIZE
+	-- Scale results
+	-- single result in "xxx" format
+	if new_recipe.result then
+		new_recipe.results = {name = new_recipe.result, amount = scaling_factor}
+		new_recipe.result = nil
+	-- table of results in {name="xxx", amount=00, type="xxx"} format
+	elseif new_recipe.results then
+		for _,res in new_recipe.results do
+			res.amount = res.amount * scaling_factor
+		end
+	end
+	return new_recipe
+end
+function create_smelter_recipe(recipe)
+	local bulk_recipe = table.deepcopy(recipe)
 	
-	recipe.enabled = false
-	recipe.name = "bulk-" .. name
+	if recipe.ingredients then
+		bulk_recipe = scale_recipe(recipe)
+	if recipe.normal then
+		bulk_recipe.normal = scale_recipe(recipe.normal)
+	end
+	if recipe.expensive then
+		bulk_recipe.expensive = scale_recipe(recipe.expensive)
+	end
+	--bulk_recipe.result_count = total_outputs_ore * MAX_OUTPUT_STACK_SIZE
+	bulk_recipe.category = "bulksmelting"
+	bulk_recipe.enabled = false
+	bulk_recipe.name = "bulk-" .. name
 	
-	data:extend({recipe})
+	data:extend({bulk_recipe})
 end
 
 function create_steel_recipe(name)
@@ -149,18 +175,21 @@ function create_uranium_recipe(name)
 end
 
 --Add above recipes to whitelist for productivity modules.
-for recipe,ore in pairs({["iron-plate"]="iron-ore",["copper-plate"]="copper-ore",["stone-brick"]="stone"}) do
-	table.insert(data.raw.module["productivity-module"].limitation,"bulk-"..recipe)
-	table.insert(data.raw.module["productivity-module-2"].limitation,"bulk-"..recipe)
-	table.insert(data.raw.module["productivity-module-3"].limitation,"bulk-"..recipe)
-	create_smelter_recipe(recipe, ore)
+for _,recipe in pairs(data.raw["recipe"]) do
+--for recipe,ore in pairs({["iron-plate"]="iron-ore",["copper-plate"]="copper-ore",["stone-brick"]="stone"}) do
+	if recipe.category and recipe.category == "smelting" then
+		table.insert(data.raw.module["productivity-module"].limitation,"bulk-"..recipe.name)
+		table.insert(data.raw.module["productivity-module-2"].limitation,"bulk-"..recipe.name)
+		table.insert(data.raw.module["productivity-module-3"].limitation,"bulk-"..recipe.name)
+		create_smelter_recipe(recipe)
+	end
 end
-
+--[[
 table.insert(data.raw.module["productivity-module"].limitation,"bulk-steel-plate")
 table.insert(data.raw.module["productivity-module-2"].limitation,"bulk-steel-plate")
 table.insert(data.raw.module["productivity-module-3"].limitation,"bulk-steel-plate")
 create_steel_recipe("steel-plate")
-
+--]]
 for _,recipe in pairs({"uranium-processing","kovarex-enrichment-process"}) do
 	table.insert(data.raw.module["productivity-module"].limitation,"bulk-"..recipe)
 	table.insert(data.raw.module["productivity-module-2"].limitation,"bulk-"..recipe)
