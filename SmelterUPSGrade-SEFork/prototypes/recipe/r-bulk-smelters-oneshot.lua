@@ -110,6 +110,7 @@ function create_smelter_recipe(recipe)
 	
 	if recipe.ingredients then
 		bulk_recipe = scale_recipe(recipe)
+	end
 	if recipe.normal then
 		bulk_recipe.normal = scale_recipe(recipe.normal)
 	end
