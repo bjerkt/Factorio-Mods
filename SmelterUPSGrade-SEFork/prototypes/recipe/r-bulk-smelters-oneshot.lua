@@ -83,7 +83,7 @@ end
 function scale_recipe(struct)
 	local new_recipe = table.deepcopy(struct)
 	-- Scale ingredients
-	for _,ingredient in new_recipe.ingredients do
+	for _,ingredient in pairs(new_recipe.ingredients) do
 		-- ingredient is in {name="xxx", amount=00, type="xxx"} format
 		if ingredient.name then
 			ingredient.amount = ingredient.amount * scaling_factor
@@ -99,7 +99,7 @@ function scale_recipe(struct)
 		new_recipe.result = nil
 	-- table of results in {name="xxx", amount=00, type="xxx"} format
 	elseif new_recipe.results then
-		for _,res in new_recipe.results do
+		for _,res in pairs(new_recipe.results) do
 			res.amount = res.amount * scaling_factor
 		end
 	end
