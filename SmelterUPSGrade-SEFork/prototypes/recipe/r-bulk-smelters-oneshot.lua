@@ -79,7 +79,7 @@ function create_entity_recipe(e_type)
 	
 	recipe.result = "bulk-" .. e_type
 	recipe.name = "bulk-" .. e_type
-	recipe.localised_name = {"recipe-name.bulk"..e_type}
+	recipe.localised_name = {"recipe-name.bulk-"..e_type}
 	
 	data:extend({recipe})
 end
