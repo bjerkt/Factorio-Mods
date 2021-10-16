@@ -40,14 +40,14 @@ data:extend{
 }
 
 function create_entity_recipe(e_type)
-	local recipe
+	local recipe = {}
 	local r_icon
 	local ratio
 	local block_type
 	
 	if e_type == "smelter" then
 		recipe = table.deepcopy(data.raw.recipe["electric-furnace"])
-		r_icon = "__base__/graphics/icons/electric-furnace.png"
+		r_icon = "__aai-industry__/graphics/icons/industrial-furnace.png"
 		ratio = settings.startup["smelter-ratio"].value
 		block_type = "smelter-block"
 	elseif e_type == "centrifuge" then
@@ -67,7 +67,9 @@ function create_entity_recipe(e_type)
 			icon_size = 64,
 		}
 	}
-	
+	-- Remove the normal/expensive bits, just have the one recipe
+	if recipe.normal then recipe.normal = nil end
+	if recipe.expensive then recipe.expensive = nil end
 	recipe.ingredients =
 	{
 		{block_type, ratio},
@@ -80,7 +82,6 @@ function create_entity_recipe(e_type)
 	recipe.result = "bulk-" .. e_type
 	recipe.name = "bulk-" .. e_type
 	recipe.localised_name = {"recipe-name.bulk-"..e_type}
-	
 	data:extend({recipe})
 end
 function scale_recipe(struct)

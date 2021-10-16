@@ -36,7 +36,7 @@ function create_entity(e_type)
 		end
 		
 		entity = create_smelter(edge_size, ratio, scale_factor)
-		r_icon = "__base__/graphics/icons/electric-furnace.png"
+		r_icon = "__aai-industry__/graphics/icons/industrial-furnace.png"
 		
 		if settings.startup["smelt-alt-map-color"].value then
 			entity.map_color = {143, 143, 143, 255}
@@ -59,9 +59,16 @@ function create_entity(e_type)
 
 	entity.allowed_effects = nil
 	entity.icon = nil
-	entity.icons[1].tint = building_tint
+	entity.icons = {
+		{
+			icon = r_icon,
+			tint = building_tint,
+			icon_size = 64
+		}
+	}
 	entity.name = "bulk-" .. e_type
-	entity.localised_name = {"entity-name.bulk"..e_type}
+	entity.localised_name = {"entity-name.bulk-"..e_type}
+	entity.localised_description = {"entity-description.bulk-"..e_type}
 	entity.collision_box = {
 		-- edge_size away from origin, then in by 0.2
 		{-1*edge_size + 0.2,-1*edge_size + 0.2},
@@ -80,6 +87,8 @@ function create_entity(e_type)
 	}
 
 	createEntityRadar(entity.name, edge_size)
+	log("Created entity: "..entity.name)
+	log(serpent.block(entity))
 	data:extend({entity})
 end
 
@@ -120,6 +129,28 @@ function do_dump(o)
       return tostring(o)
    end
 end
+function scale_animation(anim, scale_factor, shift_offset_factor)
+	-- Lua's pass by value/ref is confusing, so just make a whole new table to modify and return that
+	local animation = table.deepcopy(anim)
+	-- Scale standard resolution animation
+	if animation.scale then
+		animation.scale = animation.scale * scale_factor
+	else
+		animation.scale = scale_factor
+	end
+	-- Don't need an else here, shift defaults to {0,0} and we're multiplying
+	if animation.shift then
+		animation.shift[1] = animation.shift[1] * scale_factor * shift_offset_factor
+		animation.shift[2] = animation.shift[2] * scale_factor * shift_offset_factor
+	end
+	-- High resolution animation exists, scale it
+	if animation.hr_version then
+		animation.hr_version.scale = animation.hr_version.scale * scale_factor
+		animation.hr_version.shift[1] = animation.hr_version.shift[1] * scale_factor * shift_offset_factor
+		animation.hr_version.shift[2] = animation.hr_version.shift[2] * scale_factor * shift_offset_factor
+	end
+	return animation
+end
 
 function create_smelter(edge_size, ratio, scale_factor)
 	local entity
@@ -132,6 +163,7 @@ function create_smelter(edge_size, ratio, scale_factor)
 	entity.energy_source.emissions_per_minute = smelter_base_pollution * (smelter_per_unit_pwr_drain_penalty * (prod_mod_pollution_penalty * smelter_base_modules + 1)) * ratio
 	entity.crafting_categories = { "bulksmelting" }
 	entity.result_inventory_size = r_output_windows_needed
+	-- Delete the fluid_boxes instead of messing around with scaling them. Problem for later.
 	entity.fluid_boxes = nil
 	--[[
 	for _,box in pairs(entity.fluid_boxes) do
@@ -143,31 +175,30 @@ function create_smelter(edge_size, ratio, scale_factor)
 	local OFFSET_SCALING_FACTOR = 1.95
 	entity.scale_entity_info_icon = true
 	entity.alert_icon_scale = scale_factor
-	entity.animation.layers[1].hr_version.scale = scale_factor
-	entity.animation.layers[1].hr_version.shift[1] = entity.animation.layers[1].hr_version.shift[1] * scale_factor*OFFSET_SCALING_FACTOR
-	entity.animation.layers[1].hr_version.shift[2] = entity.animation.layers[1].hr_version.shift[2] * scale_factor*OFFSET_SCALING_FACTOR
-	entity.animation.layers[2].hr_version.scale = scale_factor
-	entity.animation.layers[2].hr_version.shift[1] = entity.animation.layers[2].hr_version.shift[1] * scale_factor*OFFSET_SCALING_FACTOR
-	entity.animation.layers[2].hr_version.shift[2] = entity.animation.layers[2].hr_version.shift[2] * scale_factor*OFFSET_SCALING_FACTOR
-	--[[
-	for z, _ in pairs(entity.working_visualisations) do
-		if entity.working_visualisations[z].animation.layers then
-			for i, _ in pairs(entity.working_visualisations[z].animation.layers) do
-				entity.working_visualisations[z].animation.layers[i].hr_version.scale = scale_factor
-				tmp = entity.working_visualisations[z].animation.layers[i].hr_version.shift[1]
-				entity.working_visualisations[z].animation.layers[i].hr_version.shift[1] = tmp * scale_factor*OFFSET_SCALING_FACTOR
-				tmp = entity.working_visualisations[z].animation.layers[i].hr_version.shift[2]
-				entity.working_visualisations[z].animation.layers[i].hr_version.shift[2] = tmp * scale_factor*OFFSET_SCALING_FACTOR
+	-- Animation is table of layers
+	if entity.animation and entity.animation.layers then
+		for _,layer in pairs(entity.animation.layers) do
+			layer = scale_animation(layer, scale_factor, OFFSET_SCALING_FACTOR)
+		end
+	-- Animation is single entry
+	elseif entity.animation then
+		entity.animation = scale_animation(entity.animation, scale_factor, OFFSET_SCALING_FACTOR)
+	end
+	-- working_visualisations is always a table
+	if entity.working_visualisations then
+		for _, vis in pairs(entity.working_visualisations) do
+			-- Animation is table of layers
+			if vis.animation and vis.animation.layers then
+				for _, anim_layer in pairs(vis.animation.layers) do
+					anim_layer = scale_animation(anim_layer, scale_factor, OFFSET_SCALING_FACTOR)
+				end
+			-- Animation is single entry
+			elseif vis.animation then
+				vis.animation = scale_animation(vis.animation, scale_factor, OFFSET_SCALING_FACTOR)
 			end
-		else
-			entity.working_visualisations[z].animation.hr_version.scale = scale_factor
-			tmp = entity.working_visualisations[z].animation.hr_version.shift[1]
-			entity.working_visualisations[z].animation.hr_version.shift[1] = tmp * scale_factor*OFFSET_SCALING_FACTOR
-			tmp = entity.working_visualisations[z].animation.hr_version.shift[2]
-			entity.working_visualisations[z].animation.hr_version.shift[2] = tmp * scale_factor*OFFSET_SCALING_FACTOR
 		end
 	end
-	--]]
+	
 	local edge_art = {
 		filename = "__SmelterUPSGrade-SEFork__/graphics/smelter_border.png",
 		frame_count = 1,

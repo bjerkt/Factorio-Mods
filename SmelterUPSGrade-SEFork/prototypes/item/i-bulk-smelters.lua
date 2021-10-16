@@ -2,10 +2,10 @@
 local item_smelter = table.deepcopy(data.raw.item["electric-furnace"])
 item_smelter.icons = {
 	{
-		icon = "__base__/graphics/icons/electric-furnace.png",
+		icon = "__aai-industry__/graphics/icons/industrial-furnace.png",
 		tint = building_tint,
-		icon_size = data.raw.item["electric-furnace"].icon_size,
-		icon_mipmaps = data.raw.item["electric-furnace"].icon_mipmaps
+		icon_size = data.raw.item["industrial-furnace"].icon_size,
+		icon_mipmaps = data.raw.item["industrial-furnace"].icon_mipmaps
 	}
 }
 item_smelter.name = "bulk-smelter"
