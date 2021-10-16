@@ -22,8 +22,9 @@ function create_entity(e_type)
 	local entity
 	local r_icon
 	local ratio
-	local edge_size = 0
-	local scale_factor = 0
+	-- Hopefully sane defaults for when something goes horribly wrong
+	local edge_size = 4
+	local scale_factor = 1
 	
 	if e_type == "smelter" then
 		ratio = settings.startup["smelter-ratio"].value
@@ -58,17 +59,11 @@ function create_entity(e_type)
 
 	entity.allowed_effects = nil
 	entity.icon = nil
-	entity.icons = {
-		{
-			icon = r_icon,
-			tint = building_tint,
-			icon_size = 64,
-			icon_mipmaps = 4
-		}
-	}
+	entity.icons[1].tint = building_tint
 	entity.name = "bulk-" .. e_type
 	entity.localised_name = {"entity-name.bulk"..e_type}
 	entity.collision_box = {
+		-- edge_size away from origin, then in by 0.2
 		{-1*edge_size + 0.2,-1*edge_size + 0.2},
 		{ edge_size - 0.2, edge_size - 0.2}
 	}
