@@ -29,7 +29,8 @@ function do_dump(o)
       return tostring(o)
    end
 end
-
+-- Remove radars until further notice
+--[[
 function init_radar(bulk_processor)
 	if DEBUG then
 		log("debug init_radar " .. bulk_processor.unit_number)
@@ -172,3 +173,4 @@ script.on_event({defines.events.on_entity_died,defines.events.on_player_mined_en
 		global.radars[event.entity.unit_number] = nil
 	end
 end)
+--]]
