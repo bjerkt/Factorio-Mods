@@ -25,16 +25,21 @@ function create_entity(e_type)
 	-- Hopefully sane defaults for when something goes horribly wrong
 	local edge_size = 4
 	local scale_factor = 1
-	
 	if e_type == "smelter" then
 		ratio = settings.startup["smelter-ratio"].value
+		--[[
+		-- Why are we not updating scale_factor if MAX_BLD_SIZE is a thing?
 		if MAX_BLD_SIZE ~= 0 then
 			edge_size = MAX_BLD_SIZE/2
 		else
 			--params: bld size, beacons on one side per bld, compression ratio
 			edge_size, scale_factor = getScaleFactors(3, 4, ratio)
 		end
-		
+		--]]
+		edge_size, scale_factor = getScaleFactors(3, 4, ratio, MAX_BLD_SIZE)
+		log("MAX_BLD_SIZE: "..MAX_BLD_SIZE)
+		log("Edge size: "..edge_size)
+		log("Scale factor: "..scale_factor)
 		entity = create_smelter(edge_size, ratio, scale_factor)
 		r_icon = "__aai-industry__/graphics/icons/industrial-furnace.png"
 		
@@ -43,12 +48,15 @@ function create_entity(e_type)
 		end
 	elseif e_type == "centrifuge" then
 		ratio = settings.startup["centrifuge-ratio"].value
+		--[[
+		-- See above comment
 		if MAX_BLD_SIZE ~= 0 then
 			edge_size = MAX_BLD_SIZE/2
 		else
 			edge_size, scale_factor = getScaleFactors(3, 4, ratio)
 		end
-		
+		--]]
+		edge_size, scale_factor = getScaleFactors(3, 4, ratio, MAX_BLD_SIZE)
 		entity = createCentrifuge(edge_size, ratio, scale_factor)
 		r_icon = "__base__/graphics/icons/centrifuge.png"
 		
@@ -85,34 +93,55 @@ function create_entity(e_type)
 	entity.module_specification = {
 		module_slots = 0,
 	}
-
-	createEntityRadar(entity.name, edge_size)
+	-- Why are we making radars? Should just be a simple crafting entity
+	--createEntityRadar(entity.name, edge_size)
 	log("Created entity: "..entity.name)
 	log(serpent.block(entity))
 	data:extend({entity})
 end
 
-function getScaleFactors(base_building_side_len, beacons_on_side, bld_count)
+function getScaleFactors(base_building_side_len, beacons_on_side, bld_count, building_side_len_max)
+	-- base_building_side_len is hardcoded to 3 (smelter/centrifuge is 3x3 building)
+	-- beacons_on_side is hardcoded to 4 (can fit 4 beacons on each side of building?)
+	-- bld_count is our chosen ratio (how many buildings do we want to roll up into this one)
+	-- building_side_len_max is our max side length, chosen in settings
 	--There is a more efficient way to lay out beacons for non-oil processing recipes,
 	-- but I can't be bothered to do the math on it, and it only saves a little bit of space.
 	local new_side_length = 3 * (beacons_on_side-1) * math.sqrt(bld_count) + 3
 	
-	if math.floor(new_side_length) + 0.5 > new_side_length then
-		new_side_length = math.ceil(new_side_length)
-	else
-		new_side_length = math.floor(new_side_length)
-	end
+	-- Round to integer
+	new_side_length = round(new_side_length)
+	--if math.floor(new_side_length) + 0.5 > new_side_length then
+	--	new_side_length = math.ceil(new_side_length)
+	--else
+	--	new_side_length = math.floor(new_side_length)
+	--end
 	
+	-- Cap side length at building_side_len_max, from settings
+	if building_side_len_max > 0 then
+		if new_side_length > building_side_len_max then
+			new_side_length = building_side_len_max
+		end
+	end
+
 	--This is done to ensure we always have a slot in the middle for a pipe.
 	if new_side_length % 2 == 0
 	then
 		new_side_length = new_side_length + 1
 	end
 
+	-- Why are we cutting our side in half?
 	local result_side_len = new_side_length/2
 	
 	--you'd think this would use the whole side length to scale, but for whatever reason, Factorio doesn't.
+	-- scale = (new length)/(old length)
 	local scale_factor = result_side_len / base_building_side_len
+	-- Round scale factor to integer
+	scale_factor = round(scale_factor)
+	log("new_side_length: "..new_side_length)
+	log("result_side_len: "..result_side_len)
+	log("base_building_side_len: "..base_building_side_len)
+	log("scale_factor: "..scale_factor)
 
 	return result_side_len, scale_factor
 end
@@ -255,3 +284,7 @@ function createCentrifuge(edge_size, ratio, scale_factor)
 	
 	return entity
 end
+
+function round(num)
+	return num + (2^52 + 2^51) - (2^52 + 2^51)
+  end
