@@ -37,9 +37,6 @@ function create_entity(e_type)
 		end
 		--]]
 		edge_size, scale_factor = getScaleFactors(3, 4, ratio, MAX_BLD_SIZE)
-		log("MAX_BLD_SIZE: "..MAX_BLD_SIZE)
-		log("Edge size: "..edge_size)
-		log("Scale factor: "..scale_factor)
 		entity = create_smelter(edge_size, ratio, scale_factor)
 		r_icon = "__aai-industry__/graphics/icons/industrial-furnace.png"
 		
@@ -77,14 +74,19 @@ function create_entity(e_type)
 	entity.name = "bulk-" .. e_type
 	entity.localised_name = {"entity-name.bulk-"..e_type}
 	entity.localised_description = {"entity-description.bulk-"..e_type}
+	local half_edge = edge_size
 	entity.collision_box = {
-		-- edge_size away from origin, then in by 0.2
-		{-1*edge_size + 0.2,-1*edge_size + 0.2},
-		{ edge_size - 0.2, edge_size - 0.2}
+		-- half_edge away from origin, then in by 0.2
+		{-1*half_edge + 0.2,-1*half_edge + 0.2},
+		{ half_edge - 0.2, half_edge - 0.2}
 	}
 	entity.selection_box = {
-		{ -1*edge_size, -1*edge_size },
-		{  edge_size,  edge_size }
+		{ -1*half_edge, -1*half_edge },
+		{  half_edge,  half_edge }
+	}
+	entity.drawing_box = {
+		{ -1*half_edge, -1*half_edge },
+		{  half_edge,  half_edge }
 	}
 	entity.minable = {
 		mining_time = 0.2,
@@ -95,8 +97,6 @@ function create_entity(e_type)
 	}
 	-- Why are we making radars? Should just be a simple crafting entity
 	--createEntityRadar(entity.name, edge_size)
-	log("Created entity: "..entity.name)
-	log(serpent.block(entity))
 	data:extend({entity})
 end
 
@@ -137,11 +137,7 @@ function getScaleFactors(base_building_side_len, beacons_on_side, bld_count, bui
 	-- scale = (new length)/(old length)
 	local scale_factor = result_side_len / base_building_side_len
 	-- Round scale factor to integer
-	scale_factor = round(scale_factor)
-	log("new_side_length: "..new_side_length)
-	log("result_side_len: "..result_side_len)
-	log("base_building_side_len: "..base_building_side_len)
-	log("scale_factor: "..scale_factor)
+	--scale_factor = round(scale_factor)
 
 	return result_side_len, scale_factor
 end
@@ -159,24 +155,28 @@ function do_dump(o)
    end
 end
 function scale_animation(anim, scale_factor, shift_offset_factor)
+	-- Scaled sprites still don't expand to the edges like we want, need additional tweaking
+	local SCALE_TWEAK = 1.18
 	-- Lua's pass by value/ref is confusing, so just make a whole new table to modify and return that
 	local animation = table.deepcopy(anim)
 	-- Scale standard resolution animation
 	if animation.scale then
-		animation.scale = animation.scale * scale_factor
+		animation.scale = animation.scale * scale_factor * SCALE_TWEAK
 	else
-		animation.scale = scale_factor
+		animation.scale = scale_factor * SCALE_TWEAK
 	end
 	-- Don't need an else here, shift defaults to {0,0} and we're multiplying
 	if animation.shift then
-		animation.shift[1] = animation.shift[1] * scale_factor * shift_offset_factor
-		animation.shift[2] = animation.shift[2] * scale_factor * shift_offset_factor
+		animation.shift[1] = animation.shift[1] * scale_factor * SCALE_TWEAK * shift_offset_factor
+		animation.shift[2] = animation.shift[2] * scale_factor * SCALE_TWEAK * shift_offset_factor
 	end
+	animation.animation_speed = 1
 	-- High resolution animation exists, scale it
 	if animation.hr_version then
-		animation.hr_version.scale = animation.hr_version.scale * scale_factor
-		animation.hr_version.shift[1] = animation.hr_version.shift[1] * scale_factor * shift_offset_factor
-		animation.hr_version.shift[2] = animation.hr_version.shift[2] * scale_factor * shift_offset_factor
+		animation.hr_version.scale = animation.hr_version.scale * scale_factor * SCALE_TWEAK
+		animation.hr_version.shift[1] = animation.hr_version.shift[1] * scale_factor * SCALE_TWEAK * shift_offset_factor
+		animation.hr_version.shift[2] = animation.hr_version.shift[2] * scale_factor * SCALE_TWEAK * shift_offset_factor
+		animation.hr_version.animation_speed = 1
 	end
 	return animation
 end
@@ -201,13 +201,15 @@ function create_smelter(edge_size, ratio, scale_factor)
 	end
 	--]]
 	--For reasons I don't understand, the offsets need additional padding to scale correctly on top of the building scale itself.
-	local OFFSET_SCALING_FACTOR = 1.95
+	-- This seems to have resolved on its own or in a base game update
+	local OFFSET_SCALING_FACTOR = 1--.95
 	entity.scale_entity_info_icon = true
 	entity.alert_icon_scale = scale_factor
 	-- Animation is table of layers
+	-- Use indexes, generic for loop doesn't seem to work
 	if entity.animation and entity.animation.layers then
-		for _,layer in pairs(entity.animation.layers) do
-			layer = scale_animation(layer, scale_factor, OFFSET_SCALING_FACTOR)
+		for i,_ in pairs(entity.animation.layers) do
+			entity.animation.layers[i] = scale_animation(entity.animation.layers[i], scale_factor, OFFSET_SCALING_FACTOR)
 		end
 	-- Animation is single entry
 	elseif entity.animation then
@@ -215,15 +217,15 @@ function create_smelter(edge_size, ratio, scale_factor)
 	end
 	-- working_visualisations is always a table
 	if entity.working_visualisations then
-		for _, vis in pairs(entity.working_visualisations) do
+		for i,_ in pairs(entity.working_visualisations) do
 			-- Animation is table of layers
-			if vis.animation and vis.animation.layers then
-				for _, anim_layer in pairs(vis.animation.layers) do
-					anim_layer = scale_animation(anim_layer, scale_factor, OFFSET_SCALING_FACTOR)
+			if entity.working_visualisations[i].animation and entity.working_visualisations[i].animation.layers then
+				for j,_ in pairs(entity.working_visualisations[i].animation.layers) do
+					entity.working_visualisations[i].animation.layers[j] = scale_animation(entity.working_visualisations[i].animation.layers[j], scale_factor, OFFSET_SCALING_FACTOR)
 				end
 			-- Animation is single entry
-			elseif vis.animation then
-				vis.animation = scale_animation(vis.animation, scale_factor, OFFSET_SCALING_FACTOR)
+			elseif entity.working_visualisations[i].animation then
+				entity.working_visualisations[i].animation = scale_animation(entity.working_visualisations[i].animation, scale_factor, OFFSET_SCALING_FACTOR)
 			end
 		end
 	end
@@ -287,4 +289,4 @@ end
 
 function round(num)
 	return num + (2^52 + 2^51) - (2^52 + 2^51)
-  end
+end
