@@ -47,8 +47,8 @@ RECIPE_MAP = {
 	["hc-asif"] = "heavy-oil-cracking",
 	["lc-asif"] = "light-oil-cracking",
 }
-	
-base_recipes = {"copper-plate", "iron-plate", "steel-plate", "plastic-bar", "sulfuric-acid", "solid-fuel", "light-oil", "sulfur", "coal", "water"}
+-- Root ingredients; we don't need to recurse past these
+base_recipes = {"copper-plate", "iron-plate", "steel-plate", "plastic-bar", "sulfuric-acid", "solid-fuel", "light-oil", "sulfur", "coal", "water", "wood"}
 plastic_base_recipes = {"coal", "sulfur", "petroleum-gas", "light-oil", "heavy-oil", "water" }
 FLUID_NAMES = {"sulfuric-acid", "petroleum-gas", "light-oil", "heavy-oil", "water" }
 
