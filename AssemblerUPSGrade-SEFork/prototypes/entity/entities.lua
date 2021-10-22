@@ -134,7 +134,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 		new_entity.animation.layers[i].hr_version.scale = scale_factor * scale_adjust
 		
 		if new_entity.animation.layers[i].hr_version.filename == "__base__/graphics/entity/assembling-machine-3/hr-assembling-machine-3.png" then
-			new_entity.animation.layers[i].hr_version.filename = "__AssemblerUPSGrade__/graphics/entity/assembler-model.png"
+			new_entity.animation.layers[i].hr_version.filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/assembler-model.png"
 		end
 
 	end
@@ -143,10 +143,10 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 	new_entity.drawing_box = { {-1*new_drawing_box_size, -1*(new_drawing_box_size)}, {new_drawing_box_size,new_drawing_box_size} }
 	new_entity.selection_box = { {-1*new_drawing_box_size, -1*new_drawing_box_size}, {new_drawing_box_size,new_drawing_box_size} }
 	
-	new_entity.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon
+	new_entity.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon
 	-- new_entity.icons = {
 		-- {
-			-- icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon,
+			-- icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon,
 			-- icon_size = 64,
 			-- tint = GRAPHICS_MAP[name].tint
 		-- }
@@ -161,7 +161,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 	end
 	
 	local edge_art = {
-		filename = "__AssemblerUPSGrade__/graphics/entity/assembler-border.png",
+		filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/assembler-border.png",
 		frame_count = new_entity.animation.layers[1].frame_count,
 		line_length = new_entity.animation.layers[1].line_length,
 		height = 256,
@@ -172,7 +172,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 	table.insert(new_entity.animation.layers, edge_art)
 	
 	local color_mask = {
-		filename = "__AssemblerUPSGrade__/graphics/entity/ass-mach-tint_mask.png",
+		filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/ass-mach-tint_mask.png",
 		frame_count = new_entity.animation.layers[1].frame_count,
 		line_length = new_entity.animation.layers[1].line_length,
 		height = 237,
@@ -359,7 +359,7 @@ function createChemPlantEntity(name, compression_ratio, n_chem, e_chem, fluid_pe
 	
 	--We want this before the scale factor gets reduced below.
 	local edge_art = {
-		filename = "__AssemblerUPSGrade__/graphics/entity/chem-border.png",
+		filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/chem-border.png",
 		frame_count = new_entity.animation["north"].layers[1].frame_count,
 		line_length = 6,
 		height = 256,
@@ -449,10 +449,10 @@ function createChemPlantEntity(name, compression_ratio, n_chem, e_chem, fluid_pe
 		log("Debug bld size " .. do_dump(new_entity.collision_box))
 	end
 	
-	new_entity.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon
+	new_entity.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon
 	-- new_entity.icons = {
 		-- {
-			-- icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon,
+			-- icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon,
 			-- icon_size = 64,
 			-- tint = GRAPHICS_MAP[name].tint
 		-- }

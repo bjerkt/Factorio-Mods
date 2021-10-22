@@ -12,7 +12,7 @@ function createItem(is_chem_plant, new_name)
 	newitem.name = new_name
 	newitem.place_result = new_name
 	newitem.order = ORDER_MAP[new_name]
-	newitem.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[new_name].icon
+	newitem.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[new_name].icon
 	newitem.stack_size = 1
 	newitem.icon_mipmaps = 1
 	newitem.subgroup = "asif-buildings"
@@ -30,7 +30,7 @@ function createOilRefItem(new_name)
 	newitem.name = new_name
 	newitem.place_result = new_name
 	newitem.order = ORDER_MAP[new_name]
-	newitem.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[new_name].icon
+	newitem.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[new_name].icon
 	newitem.stack_size = 1
 	newitem.icon_mipmaps = 1
 	newitem.subgroup = "asif-buildings"
@@ -44,7 +44,7 @@ end
 
 data:extend({
     {
-      icon = "__AssemblerUPSGrade__/graphics/ass-blk.png",
+      icon = "__AssemblerUPSGrade-SEFork__/graphics/ass-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "asif-assembler-block",
@@ -54,7 +54,7 @@ data:extend({
       type = "item"
     },
 	{
-      icon = "__AssemblerUPSGrade__/graphics/chem-blk.png",
+      icon = "__AssemblerUPSGrade-SEFork__/graphics/chem-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "asif-chem-block",
@@ -64,7 +64,7 @@ data:extend({
       type = "item"
     },
 	{
-      icon = "__AssemblerUPSGrade__/graphics/logi-blk.png",
+      icon = "__AssemblerUPSGrade-SEFork__/graphics/logi-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "asif-logi-block",
@@ -74,7 +74,7 @@ data:extend({
       type = "item"
     },
 	{
-      icon = "__AssemblerUPSGrade__/graphics/oil-blk.png",
+      icon = "__AssemblerUPSGrade-SEFork__/graphics/oil-blk.png",
       icon_mipmaps = 1,
       icon_size = 64,
       name = "asif-oil-block",

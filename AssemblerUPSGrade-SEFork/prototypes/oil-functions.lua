@@ -27,16 +27,24 @@ function computeAdvOilProcRecipe(name, compression_ratio, productivity_factor)
 	--	result["outputs"][1]{["connections_needed"] = 7, ["name"] = "light-oil", ["amount_needed"] = 67800 }
 	
 	result = {["inputs"]={},["outputs"] = {}}
-	for _, item in pairs(base_recipe.ingredients) do
-		local ips = math.floor(item.amount / (normal_time / speed_bonus)) * compression_ratio
-		
-		table.insert(result["inputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
-	end
-	
-	for _, item in pairs(base_recipe.results) do
-		local ips = math.ceil(item.amount / (normal_time / speed_bonus)) * compression_ratio * (1 + productivity_factor)
-		
-		table.insert(result["outputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
+	if base_recipe.ingredients then
+		for _, item in pairs(base_recipe.ingredients) do
+			local ips = math.floor(item.amount / (normal_time / speed_bonus)) * compression_ratio
+			table.insert(result["inputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
+		end
+		for _, item in pairs(base_recipe.results) do
+			local ips = math.ceil(item.amount / (normal_time / speed_bonus)) * compression_ratio * (1 + productivity_factor)
+			table.insert(result["outputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
+		end
+	elseif base_recipe.normal then
+		for _, item in pairs(base_recipe.normal.ingredients) do
+			local ips = math.floor(item.amount / (normal_time / speed_bonus)) * compression_ratio
+			table.insert(result["inputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
+		end
+		for _, item in pairs(base_recipe.normal.results) do
+			local ips = math.ceil(item.amount / (normal_time / speed_bonus)) * compression_ratio * (1 + productivity_factor)
+			table.insert(result["outputs"], {["name"] = item.name, ["connections_needed"] = math.ceil(ips/MAX_FLUID_PER_INPUT_PER_SECOND), ["amount_needed"] = ips})
+		end
 	end
 	
 	return result
@@ -48,7 +56,7 @@ function createAdvOilProResultRecipes(stock_name, new_name, recipe_data)
 	
 	new_recipe.name = recipe_name
 	new_recipe.main_product = nil
-	new_recipe.icon = "__AssemblerUPSGrade__/graphics/recipe/" .. GRAPHICS_MAP[new_name].icon
+	new_recipe.icon = "__AssemblerUPSGrade-SEFork__/graphics/recipe/" .. GRAPHICS_MAP[new_name].icon
 	new_recipe.icon_size = 64
 	
 	new_recipe.ingredients = {}

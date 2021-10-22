@@ -61,7 +61,7 @@ function createResultRecipes(stock_name, new_name, compression_ratio, nrips, eri
 	new_recipe.ingredients = nil
 	new_recipe.name = recipe_name
 	new_recipe.main_product = recipe_name
-	new_recipe.icon = "__AssemblerUPSGrade__/graphics/recipe/" .. GRAPHICS_MAP[new_name].icon
+	new_recipe.icon = "__AssemblerUPSGrade-SEFork__/graphics/recipe/" .. GRAPHICS_MAP[new_name].icon
 	new_recipe.icon_size = 64
 	if not new_recipe.normal
 	then

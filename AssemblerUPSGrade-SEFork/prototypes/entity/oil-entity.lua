@@ -362,7 +362,7 @@ function createOilRefEntity(name, compression_ratio, recipe_data)
 		
 		--We want this before the scale factor gets reduced below.
 		edge_art = {
-			filename = "__AssemblerUPSGrade__/graphics/entity/oil-border.png",
+			filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/oil-border.png",
 			frame_count = new_entity.animation["north"].layers[1].frame_count,
 			height = 256,
 			priority = "high",
@@ -372,7 +372,7 @@ function createOilRefEntity(name, compression_ratio, recipe_data)
 	else		
 		--We want this before the scale factor gets reduced below.
 		edge_art = {
-			filename = "__AssemblerUPSGrade__/graphics/entity/oil-border.png",
+			filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/oil-border.png",
 			frame_count = new_entity.animation["north"].layers[1].frame_count,
 			height = 256,
 			priority = "high",
@@ -448,7 +448,7 @@ function createOilRefEntity(name, compression_ratio, recipe_data)
 	new_entity.drawing_box = { {-1*new_drawing_box_size, -1*new_drawing_box_size}, {new_drawing_box_size,new_drawing_box_size} }
 	new_entity.selection_box = { {-1*new_drawing_box_size, -1*new_drawing_box_size}, {new_drawing_box_size,new_drawing_box_size} }
 	
-	new_entity.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon
+	new_entity.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon
 	new_entity.icon_size = 64
 	
 	--Now we create the fluid boxes
@@ -508,7 +508,7 @@ function createCrackingChemPlantEntity(name, compression_ratio, recipe_data)
 	
 	--We want this before the scale factor gets reduced below.
 	local edge_art = {
-		filename = "__AssemblerUPSGrade__/graphics/entity/chem-border.png",
+		filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/chem-border.png",
 		frame_count = new_entity.animation["north"].layers[1].frame_count,
 		line_length = 6,
 		height = 256,
@@ -593,10 +593,10 @@ function createCrackingChemPlantEntity(name, compression_ratio, recipe_data)
 	new_entity.drawing_box = { {-1*new_drawing_box_size, -1*(new_drawing_box_size)}, {new_drawing_box_size,new_drawing_box_size} }
 	new_entity.selection_box = { {-1*new_drawing_box_size, -1*new_drawing_box_size}, {new_drawing_box_size,new_drawing_box_size} }
 	
-	new_entity.icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon
+	new_entity.icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon
 	-- new_entity.icons = {
 		-- {
-			-- icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon,
+			-- icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon,
 			-- icon_size = 64,
 			-- tint = GRAPHICS_MAP[name].tint
 		-- }

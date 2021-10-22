@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "technology",
 		name = "asif",
-		icon = "__AssemblerUPSGrade__/graphics/ASIF.png",
+		icon = "__AssemblerUPSGrade-SEFork__/graphics/ASIF.png",
 		icon_size = 64,
 		effects =
 		{
@@ -33,10 +33,11 @@ data:extend(
 
 data:extend(
 {
+	--[[
 	{
 		type = "technology",
 		name = "rf-asif",
-		icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP["rf-asif"].icon,
+		icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP["rf-asif"].icon,
 		icon_size = 64,
 		effects =
 		{
@@ -66,10 +67,11 @@ data:extend(
 		},
 		order = "a-b-c"
 	},
+	--]]
 	{
 		type = "technology",
 		name = "oil-asif",
-		icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP["oil-asif"].icon,
+		icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP["oil-asif"].icon,
 		icon_size = 64,
 		effects =
 		{
@@ -115,7 +117,7 @@ function addTechnology(name)
 		{
 			type = "technology",
 			name = name,
-			icon = "__AssemblerUPSGrade__/graphics/" .. GRAPHICS_MAP[name].icon,
+			icon = "__AssemblerUPSGrade-SEFork__/graphics/" .. GRAPHICS_MAP[name].icon,
 			icon_size = 64,
 			effects =
 			{
