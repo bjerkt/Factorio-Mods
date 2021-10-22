@@ -17,6 +17,7 @@ function has_value (tab, val)
 end
 
 function getItemCreateTime(name)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local the_recipe = data.raw.recipe[name]
 	
 	local normal_time = the_recipe.normal and the_recipe.normal.energy_required 
@@ -32,6 +33,7 @@ function getItemCreateTime(name)
 end
 
 function getProductivityAndSpeedFactors(name)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local crafting_cat = data.raw.recipe[name].category or "crafting"
 	local speed_bonus = 1
 	local prod_factor = 1
@@ -59,6 +61,7 @@ function getProductivityAndSpeedFactors(name)
 end
 
 function getResultCount(name)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local the_recipe = data.raw.recipe[name]
 	
 	if not the_recipe
@@ -86,6 +89,7 @@ end
 --Computes how many items per second are produced by the given recipe (assuming fully beaconed/moduled).
 -- Productivty NOT factored in!
 function computeItemsPerSecond(name)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local normal_time, expensive_time = getItemCreateTime(name)
 	local prod_bonus, building_mod_bonus = getProductivityAndSpeedFactors(name)
 	
@@ -99,6 +103,7 @@ end
 
 --This returns the list of ingredients for a given item name.
 function getItemIngredients(name)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local the_recipe = data.raw.recipe[name]
 	
 	local normal_ing = the_recipe.normal and the_recipe.normal.ingredients
@@ -121,6 +126,7 @@ function getItemIngredient(ingredients)
 end
 
 function unwindVanillaRecipeHelper(name, nmultiplier, emultipler, mode, result, base_recipe_list)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local normal_ingredients, expensive_ingredients = getItemIngredients(name)
 	local n_res_cnt, e_res_cnt = getResultCount(name)
 
@@ -174,6 +180,7 @@ end --end unwindVanillaRecipeHelper
 --The goal of this function is to tell you how many raw materials are needed
 -- to produce a given item. IE: A green circuit needs 1 iron plate and 1.5 copper plate.
 function unwindVanillaRecipe(name, plastic_override)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local result = { ["expensive"] = {}, ["normal"] = {} }
 	local n_res_cnt, e_res_cnt = getResultCount(name)
 	
@@ -209,6 +216,7 @@ function unwindVanillaRecipe(name, plastic_override)
 end --end unwindVanillaRecipe
 
 function unwindAssemblersNeeded(name, mode, main_item_ips, result, plastic_override)
+	if name == "electronic-circuit" then name = "electronic-circuit-stone" end
 	local productivity_factor = 1
 	
 	local crafting_cat = data.raw.recipe[name].category or "crafting"

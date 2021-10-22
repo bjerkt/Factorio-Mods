@@ -24,13 +24,17 @@ TECH_DETAILS = {
 	--Oil is handled on its own since it unlocks multiple recipes.
 	["oil-asif"] = { cost = 4000000, prereqs = {"asif"} },
 }
-
+-- Names of the desired recipes for each item. Important distinction, as there are multiple recipes for certain items
 ITEM_LIST = {
 	["arty-shell-asif"] = "artillery-shell",
-	["gc-asif"] = "electronic-circuit",
+	["gc-asif"] = "electronic-circuit-stone",
 	["rc-asif"] = "advanced-circuit",
 	["bc-asif"] = "processing-unit",
+	--["???"] = "se-processing-unit-holmium",
 	["lds-asif"] = "low-density-structure",
+	--["???"] = "se-low-density-structure-beryllium",
+	--["???"] = "se-heat-shielding",
+	--["???"] = "se-heat-shielding-iridium",
 	["eng-asif"] = "engine-unit",
 	["pla-asif"] = "plastic-bar",
 	--["rf-asif"] = "rocket-fuel",
