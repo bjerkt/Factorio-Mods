@@ -64,7 +64,7 @@ data:extend{
   },
   {
     type = "int-setting",
-    name = "lse-hsi-asif-ratio",
+    name = "se-hsi-asif-ratio",
     setting_type = "startup",
     minimum_value = 25,
     maximum_value = 1000,
