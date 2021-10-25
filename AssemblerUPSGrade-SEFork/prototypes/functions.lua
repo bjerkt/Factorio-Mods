@@ -333,6 +333,14 @@ function createEntityRadar(asif_name, side_length)
 	new_entity.water_reflection = nil
 	new_entity.working_sound = nil
 	new_entity.collision_mask = {}
+	new_entity.pictures = {
+		filename = "__AssemblerUPSGrade-SEFork__/graphics/entity/nothing.png",
+		priority = "high",
+		width = 4,
+		height = 4,
+		direction_count = 1,
+		frame_count = 1
+	}
 	data:extend({new_entity})
 end
 
