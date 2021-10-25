@@ -30,11 +30,11 @@ ITEM_LIST = {
 	["gc-asif"] = "electronic-circuit-stone",
 	["rc-asif"] = "advanced-circuit",
 	["bc-asif"] = "processing-unit",
-	--["???"] = "se-processing-unit-holmium",
+	["se-bc-asif"] = "se-processing-unit-holmium",
 	["lds-asif"] = "low-density-structure",
-	--["???"] = "se-low-density-structure-beryllium",
-	--["???"] = "se-heat-shielding",
-	--["???"] = "se-heat-shielding-iridium",
+	["se-lds-asif"] = "se-low-density-structure-beryllium",
+	["se-hs-asif"] = "se-heat-shielding",
+	["se-hsi-asif"] = "se-heat-shielding-iridium",
 	["eng-asif"] = "engine-unit",
 	["pla-asif"] = "plastic-bar",
 	--["rf-asif"] = "rocket-fuel",
@@ -52,7 +52,33 @@ RECIPE_MAP = {
 	["lc-asif"] = "light-oil-cracking",
 }
 -- Root ingredients; we don't need to recurse past these
-base_recipes = {"copper-plate", "iron-plate", "steel-plate", "plastic-bar", "sulfuric-acid", "solid-fuel", "light-oil", "sulfur", "coal", "water", "wood", "stone", "glass", "petroleum-gas", "light-oil", "heavy-oil", "sand"}
+base_recipes = 
+{
+	"copper-plate",
+	"iron-plate",
+	"steel-plate",
+	"plastic-bar",
+	"sulfuric-acid",
+	"solid-fuel",
+	"petroleum-gas",
+	"heavy-oil",
+	"light-oil",
+	"sulfur",
+	"coal",
+	"water",
+	"wood",
+	"stone",
+	"glass",
+	"sand",
+	"se-vitamelange-extract",
+	"se-beryllium-ingot",
+	"se-holmium-ingot",
+	"se-iridium-ingot",
+	"se-naquium-ingot",
+	"se-cryonite-rod",
+	"se-vulcanite-block"
+
+}
 plastic_base_recipes = {"coal", "sulfur", "petroleum-gas", "light-oil", "heavy-oil", "water" }
 FLUID_NAMES = {"sulfuric-acid", "petroleum-gas", "light-oil", "heavy-oil", "water" }
 
