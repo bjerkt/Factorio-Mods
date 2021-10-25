@@ -97,7 +97,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 	new_entity.fixed_recipe = name .. "-recipe"
 	new_entity.name = name
 	new_entity.crafting_speed = 1
-	new_entity.crafting_categories = { name }
+	new_entity.crafting_categories = { "asif-crafting" }
 	new_entity.energy_source.emissions_per_minute = total_pollution_value
 	new_entity.energy_source.drain = drain .. "kW"
 	new_entity.energy_usage = draw .. "kW"
@@ -107,6 +107,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 	--new_entity.base_productivity = .1*assembler_base_modules
 	new_entity.fast_replaceable_group = name
 	new_entity.minable.result = name
+	new_entity.ingredient_count = 255
 	
 	local new_drawing_box_size = 0
 	local scale_factor = 0
@@ -326,7 +327,7 @@ function createChemPlantEntity(name, compression_ratio, n_chem, e_chem, fluid_pe
 	new_entity.fixed_recipe = name .. "-recipe"
 	new_entity.name = name
 	new_entity.crafting_speed = 1
-	new_entity.crafting_categories = { name }
+	new_entity.crafting_categories = { "asif-crafting" }
 	new_entity.energy_source.emissions_per_minute = total_pollution_value
 	new_entity.energy_source.drain = drain .. "kW"
 	new_entity.energy_usage = draw .. "kW"

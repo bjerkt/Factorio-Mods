@@ -65,7 +65,7 @@ function createRecipeHelper(new_recipe, stock_item_name, results_per_second, com
 	
 	new_recipe.result_count = math.ceil(results_per_second)
 	new_recipe.enabled = false
-	new_recipe.always_show_made_in = true
+	new_recipe.always_show_made_in = false
 	new_recipe.hide_from_player_crafting = true
 end
 
@@ -97,7 +97,7 @@ function createResultRecipes(stock_name, new_name, compression_ratio, nrips, eri
 	--expensive
 	createRecipeHelper(new_recipe.expensive, stock_name, erips, compression_ratio, items_needed.recip_e)
 
-	new_recipe.category = new_name
+	new_recipe.category = "asif-crafting"
 	
 	if DEBUG then
 		log("Debug createResultRecipes: " .. do_dump(new_recipe))

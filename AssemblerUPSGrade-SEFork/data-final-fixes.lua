@@ -17,18 +17,16 @@ data:extend({
 		order = "e1",
 	}
 })
+--Add new crafting category
+data:extend({
+	{
+		type = "recipe-category",
+		name = "asif-crafting"
+	}
+})
 
 for new_item,stock_item in pairs(ITEM_LIST) do
 	local compression_ratio = settings.startup[new_item .. "-ratio"].value
-	
-	--Add new crafting category
-	data:extend({
-		{
-			type = "recipe-category",
-			name = new_item
-		}
-	})
-	
 	local productivity_factor, building_mod_bonus = getProductivityAndSpeedFactors(stock_item)
 	local crafting_cat = data.raw.recipe[stock_item].category or "crafting"
 	local plastic_override = false

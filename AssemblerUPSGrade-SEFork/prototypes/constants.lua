@@ -12,7 +12,7 @@ TECH_DETAILS = {
 	["rc-asif"] = { cost = 500000, prereqs = {"gc-asif"} },
 	["bc-asif"] = { cost = 1000000, prereqs = {"rc-asif"} },
 	["se-bc-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
-	["beacon-asif"] = { cost = 1000000, prereqs = {"rc-asif"} },
+	--["beacon-asif"] = { cost = 1000000, prereqs = {"rc-asif"} },
 	["lds-asif"] = { cost = 500000, prereqs = {"asif"} },
 	["se-lds-asif"] = { cost = 500000, prereqs = {"lds-asif"} },
 	["se-hs-asif"] = { cost = 500000, prereqs = {"asif"} },
@@ -22,9 +22,9 @@ TECH_DETAILS = {
 	--RF is handled on its own since it unlocks multiple recipes.
 	--["rf-asif"] = { cost = 500000, prereqs = {"asif"} },
 	["rcu-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
-	["spd-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
-	["prod-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
-	["eff-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
+	--["spd-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
+	--["prod-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
+	--["eff-3-asif"] = { cost = 1000000, prereqs = {"bc-asif"} },
 	--Oil is handled on its own since it unlocks multiple recipes.
 	["oil-asif"] = { cost = 4000000, prereqs = {"asif"} },
 }
@@ -46,10 +46,10 @@ ITEM_LIST = {
 	--["sflo-asif"] = "solid-fuel-from-light-oil",
 	--["sfho-asif"] = "solid-fuel-from-heavy-oil",
 	["rcu-asif"] = "rocket-control-unit",
-	["spd-3-asif"] = "speed-module-3",
-	["prod-3-asif"] = "productivity-module-3",
-	["eff-3-asif"] = "effectivity-module-3",
-	["beacon-asif"] = "beacon",
+	--["spd-3-asif"] = "speed-module-3",
+	--["prod-3-asif"] = "productivity-module-3",
+	--["eff-3-asif"] = "effectivity-module-3",
+	--["beacon-asif"] = "beacon",
 }
 RECIPE_MAP = {
 	["hc-asif"] = "heavy-oil-cracking",
@@ -91,7 +91,11 @@ ORDER_MAP = {
 	["gc-asif"] = "a",
 	["rc-asif"] = "b",
 	["bc-asif"] = "c",
+	["se-bc-asif"] = "c1",
 	["lds-asif"] = "e",
+	["se-lds-asif"] = "e1",
+	["se-hs-asif"] = "h",
+	["se-hsi-asif"] = "h1",
 	["eng-asif"] = "d",
 	["pla-asif"] = "f",
 	--["rf-asif"] = "h",
