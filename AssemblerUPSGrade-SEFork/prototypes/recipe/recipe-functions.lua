@@ -43,12 +43,30 @@ function createRecipeHelper(new_recipe, stock_item_name, results_per_second, com
 	if stock_item_name == "solid-fuel-from-petroleum-gas" or stock_item_name == "solid-fuel-from-light-oil" or stock_item_name == "solid-fuel-from-heavy-oil" then
 		new_recipe.result = "solid-fuel"
 	else
-		new_recipe.result = stock_item_name
+		local rec = data.raw.recipe[stock_item_name]
+		if rec.normal then
+			if rec.normal.results then
+				new_recipe.result = rec.normal.results[1].name
+			else
+				new_recipe.result = rec.normal.result
+			end
+		elseif rec.expensive then
+			if rec.expensive.results then
+				new_recipe.result = rec.expensive.results[1].name
+			else
+				new_recipe.result = rec.expensive.result
+			end
+		elseif rec.results then
+			new_recipe.result = rec.results[1].name
+		else 
+			new_recipe.result = rec.result
+		end
 	end
 	
 	new_recipe.result_count = math.ceil(results_per_second)
 	new_recipe.enabled = false
 	new_recipe.always_show_made_in = true
+	new_recipe.hide_from_player_crafting = true
 end
 
 --This function only creates the recipes for the result products (IE: Green chips, red chips, etc). It does NOT
