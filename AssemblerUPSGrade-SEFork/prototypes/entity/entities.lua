@@ -167,7 +167,7 @@ function createAssemblerEntity(name, compression_ratio, n_ass, e_ass, fluid_per_
 		line_length = new_entity.animation.layers[1].line_length,
 		height = 256,
 		priority = "high",
-		scale = scale_factor * .75,
+		scale = scale_factor * 0.69,
 		width = 256,
 	}
 	table.insert(new_entity.animation.layers, edge_art)
