@@ -3,7 +3,7 @@ DEBUG = false
 --Number of beacons around a standard building.
 beacon_count = 12
 
-NEED_FLUID_RECIPES = { "bc-asif", "spd-3-asif", "prod-3-asif", "pla-asif", "rf-asif", "sfpg-asif", "sflo-asif", "sfho-asif", "rcu-asif", "arty-shell-asif" }
+NEED_FLUID_RECIPES = { "bc-asif", "se-bc-asif", "spd-3-asif", "prod-3-asif", "pla-asif", "rf-asif", "sfpg-asif", "sflo-asif", "sfho-asif", "rcu-asif", "arty-shell-asif" }
 MAX_FLUID_PER_INPUT_PER_SECOND = settings.startup["max-flow-rate"].value
 
 TECH_DETAILS = {
